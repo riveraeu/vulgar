@@ -1,80 +1,28 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Control,
-         ControlGroup,
-         FormBuilder,
-         NgForm,
-         NgIf,
-         Validators } from '@angular/common';
+import { NgForm } from '@angular/common';
 import { FormModel } from './form.model';
 import { AuthService } from '../shared/services/auth.service';
-import { EmailValidator } from '../shared/validators/email.validator';
 
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-// Reference: https://davidwalsh.name/javascript-debounce-function
-function debounce(func, wait, immediate = false) {
-	let timeout;
-	return function() {
-		let context = this, args = arguments;
-		let later = () => {
-			timeout = null;
-			if (!immediate) {
-        func.apply(context, args);
-      }
-		};
-		let callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) {
-      func.apply(context, args);
-    }
-	};
-};
+
 
 @Component({
   selector: 'login-form',
-  providers: [ AuthService, EmailValidator ],
+  providers: [ AuthService ],
   template: require('./login.component.html'),
   styleUrls: [require('!style!css!sass!./form.scss')]
 })
 
 export class LoginComponent {
 
-  // The user registration form is of type `ControlGroup`
-  userForm: ControlGroup;
-
-  username: Control;
-  password: Control;
-
   constructor(private authService: AuthService,
-              private formBuilder: FormBuilder,
-              private router: Router) {
-    this.username = new Control('', Validators.compose([
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(16),
-    ]))
-    this.password = new Control('', Validators.compose([
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(128)
-    ]))
-    // Use Angular 2's `FormBuilder` `API` to build the
-    // user registration form
-    this.userForm = this.formBuilder.group({
-      username: this.username,
-      password: this.password
-    });
-  }
+              private router: Router){}
 
-  model:FormModel = new FormModel('', '');
 
-  submitted:boolean = false;
+  model = new FormModel('example', 'password');
 
-  active:boolean = true;
+  submitted = false;
+
 
   processUserData() {
     let userData = new FormModel(this.model.username.toLowerCase(),
@@ -89,6 +37,7 @@ export class LoginComponent {
         // DEBUG
         // TODO: Remove this DEBUG statement
         console.log(res);
+        alert("Login Succesful!");
         this.newUser();
         this.router.navigate(['/recipes']);
       }, (error) => {
@@ -100,17 +49,19 @@ export class LoginComponent {
   }
 
   getSessionData() {
-    this.authService.getSessionData()
-      .subscribe((res) => {
-        // DEBUG
-        // TODO: Remove this DEBUG statement
-        console.log(res);
-      }, (error) => {
-        // DEBUG
-        // TODO: Remove this DEBUG statement
-        console.log(error);
-      });
+  this.authService.getSessionData()
+    .subscribe((res) => {
+      // DEBUG
+      // TODO: Remove this DEBUG statement
+      console.log(res);
+    }, (error) => {
+      // DEBUG
+      // TODO: Remove this DEBUG statement
+      console.log(error);
+    });
   }
+
+  active = true;
 
   newUser() {
     this.model = new FormModel('', '');

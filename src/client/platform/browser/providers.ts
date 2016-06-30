@@ -3,13 +3,16 @@
 //** These `providers` are available in any template **
 
 // Angular 2
-import {FORM_PROVIDERS,
-        LocationStrategy,
+import {LocationStrategy,
         HashLocationStrategy,
         PathLocationStrategy} from '@angular/common';
 
 // Angular 2 Http
-import {HTTP_PROVIDERS} from '@angular/http';
+import { HTTP_PROVIDERS } from '@angular/http';
+
+// Angular 2 forms
+import { disableDeprecatedForms, provideForms } from '@angular/forms';
+
 // Angular 2 Router
 import { provideRouter } from '@angular/router';
 import { provideWebpack } from '@angularclass/webpack-toolkit';
@@ -33,7 +36,9 @@ import { AuthService } from '../../app/shared/services/auth.service';
 //
 //** providers/directives/pipes that only live in our browser environment **
 export const APPLICATION_PROVIDERS = [
-  ...FORM_PROVIDERS,
+  // new Angular 2 forms
+  disableDeprecatedForms(),
+  provideForms(),
   ...HTTP_PROVIDERS,
   ...MATERIAL_PROVIDERS,
   provideRouter(routes),

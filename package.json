@@ -22,63 +22,49 @@
     "webpack-dev-server": "webpack-dev-server",
     "webdriver-manager": "webdriver-manager",
     "protractor": "protractor",
-
     "clean": "npm cache clean && npm run rimraf -- node_modules docs typings coverage dist",
-      "clean:dist": "npm run rimraf -- dist/client",
-        "preclean:install": "npm run clean",
-      "clean:install": "npm set progress=false && npm install",
-        "preclean:start": "npm run clean",
-      "clean:start": "npm start",
-
+    "clean:dist": "npm run rimraf -- dist/client",
+    "preclean:install": "npm run clean",
+    "clean:install": "npm set progress=false && npm install",
+    "preclean:start": "npm run clean",
+    "clean:start": "npm start",
     "watch": "npm run watch:dev",
-      "watch:dev": "npm run build:dev -- --watch",
-        "watch:dev:hmr": "npm run watch:dev -- --hot",
-      "watch:test": "npm run test -- --auto-watch --no-single-run",
-      "watch:prod": "npm run build:prod -- --watch",
-
+    "watch:dev": "npm run build:dev -- --watch",
+    "watch:dev:hmr": "npm run watch:dev -- --hot",
+    "watch:test": "npm run test -- --auto-watch --no-single-run",
+    "watch:prod": "npm run build:prod -- --watch",
     "build": "npm run build:dev",
-        "prebuild:dev": "npm run clean:dist",
-      "build:dev": "webpack --config config/webpack.dev.js --progress --profile --colors --display-error-details --display-cached",
-        "prebuild:prod": "npm run clean:dist",
-      "build:prod": "webpack --config config/webpack.prod.config.js --progress --profile --colors --display-error-details --display-cached --bail",
-
+    "prebuild:dev": "npm run clean:dist",
+    "build:dev": "webpack --config config/webpack.dev.js --progress --profile --colors --display-error-details --display-cached",
+    "prebuild:prod": "npm run clean:dist",
+    "build:prod": "webpack --config config/webpack.prod.config.js --progress --profile --colors --display-error-details --display-cached --bail",
     "server": "npm run server:dev",
-      "server:dev": "webpack-dev-server --inline --progress --profile --colors --watch --display-error-details --display-cached  --content-base src/client/",
-      "server:dev:hmr": "npm run server:dev -- --hot",
-
+    "server:dev": "webpack-dev-server --inline --progress --profile --colors --watch --display-error-details --display-cached  --content-base src/client/",
+    "server:dev:hmr": "npm run server:dev -- --hot",
     "webdriver:update": "npm run webdriver-manager update",
     "webdriver:start": "npm run webdriver-manager start",
-
     "fix:line-endings": "find . \\( -type f -and -not -path '*/node_modules/*' \\) -exec dos2unix {} \\;",
-
     "lint": "npm run tslint \"src/**/*.ts\"",
     "lint:client": "npm run tslint \"src/client/**/*.ts\"",
     "lint:server": "npm run tslint \"src/server/**/*.ts\"",
-
-      "pree2e": "npm run webdriver:update -- --standalone",
+    "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor",
-      "e2e:live": "npm run e2e -- --elementExplorer",
-
+    "e2e:live": "npm run e2e -- --elementExplorer",
     "test": "karma start",
-
     "ci": "npm run lint && npm test && npm run e2e",
-
     "docs": "npm run typedoc --options typedoc.json --exclude '**/*.spec.ts' ./src/",
-
     "start": "concurrently --kill-others --raw \"npm run server:dev\" \"npm run watch\"",
-
     "postinstall": "npm run typings -- install",
-
-      "preversion": "npm test",
+    "preversion": "npm test",
     "version": "npm run build",
-      "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "@angular/http": "2.0.0-rc.3",
     "@angular/common": "2.0.0-rc.3",
     "@angular/compiler": "2.0.0-rc.3",
     "@angular/core": "2.0.0-rc.3",
     "@angular/forms": "^0.1.1",
+    "@angular/http": "2.0.0-rc.3",
     "@angular/platform-browser": "2.0.0-rc.3",
     "@angular/platform-browser-dynamic": "2.0.0-rc.3",
     "@angular/platform-server": "2.0.0-rc.3",
@@ -98,11 +84,12 @@
     "@angular2-material/slide-toggle": "2.0.0-alpha.5-2",
     "@angular2-material/tabs": "2.0.0-alpha.5-2",
     "@angular2-material/toolbar": "2.0.0-alpha.5-2",
-    "@angularclass/webpack-toolkit": "^1.0.0",
     "@angularclass/request-idle-callback": "^1.0.6",
+    "@angularclass/webpack-toolkit": "^1.0.0",
     "@ngrx/store": "1.5.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.1",
+    "bootstrap": "^3.3.6",
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.0",
     "express": "^4.13.4",
