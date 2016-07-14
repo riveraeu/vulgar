@@ -2,20 +2,41 @@
   <md-card-title>Socket.io Chat</md-card-title>
   <md-card-content>
     <form autocomplete="off">
-      <md-input placeholder="User Handle" [(ngModel)]="handle"
-                [disabled]="connected"></md-input>
-      <button md-raised-button color="primary"
-              *ngIf="connected" (click)="disconnect()">Disconnect</button>
-      <button md-raised-button color="primary" *ngIf="!connected"
+      <div class="form-group">
+        <label for="handle">Handle</label>
+        <input type="text" class="form-control" required
+                [(ngModel)]="model.handle" [disabled]="connected"
+                name="handle" #handle="ngModel">
+        <div [hidden]="handle.valid" class="alert alert-danger">
+              handle is required
+        </div>
+        TODO: remove this: {{model.handle}}
+      </div>
+      <button type="button" class="btn btn-default"
+              color="primary" *ngIf="connected"
+              (click)="disconnect()">Disconnect</button>
+      <button type="button" class="btn btn-default"
+              color="primary" *ngIf="!connected"
               (click)="connect()">Connect</button>
     </form>
+    <!-- end of handle form -->
+    <br>
     <form (ngSubmit)="send()" autocomplete="off">
-      <md-input placeholder="Enter a Message" [(ngModel)]="message"
-                [disabled]="!connected" autofocus></md-input>
-      <button md-raised-button color="primary" [disabled]="!connected">
+      <div class="form-group">
+        <input type="text" class="form-control" required
+                [(ngModel)]="model.message" [disabled]="!connected"
+                name="message" #message="ngModel"
+                autofocus>
+        <div [hidden]="message.valid" class="alert alert-danger">
+              message is required
+        </div>
+        TODO: remove this: {{model.message}}
+      </div>
+      <button type="submit" class="btn btn-default" color="primary" [disabled]="!connected">
         Send
       </button>
     </form>
+    <!-- end of message form -->
   </md-card-content>
 </md-card>
 <md-content layout-padding>

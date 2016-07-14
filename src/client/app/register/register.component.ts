@@ -68,12 +68,14 @@ export class RegisterComponent {
     ]))
     // Use Angular 2's `FormBuilder` `API` to build the
     // user registration form
+    // removed { validator: matchingPasswords('password', 'confirm')},
+    // was causing the state of the confirm control to be stuck invalid
     this.userForm = this.formBuilder.group({
       username: this.username,
       password: this.password,
       confirm: this.confirm,
       email: this.email
-    }, { validator: matchingPasswords('password', 'confirm')});
+    });
   }
 
   // Initialize our form data based on our model

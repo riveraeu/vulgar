@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/common';
+import { FormModel } from './form.model';
 import { ClientSocket } from '../shared/client-socket.ts';
 
 declare var require;
@@ -13,12 +15,14 @@ const template: string = require('./chat.component.html');
 export class ChatComponent extends ClientSocket {
 
   handle: string = 'user-' + Math.floor((Math.random() * 10000) + 1);
-  message: string = '';
+  message: string = 'test';
   items: string[] = [];
 
   constructor() {
     super();
   }
+
+  model = new FormModel('User Handle', 'Enter a Message');
 
   connect() {
     this.initialize();
@@ -44,9 +48,12 @@ export class ChatComponent extends ClientSocket {
     this.items.push(item);
   }
 
+  submitted = false;
+
   send() {
-    console.log('{ socket - client:message } Trying to send message', this.handle, this.message);
-    this.socket.emit('chat:message', this.message);
+    this.submitted = true;
+    console.log('{ socket - client:message } Trying to send message', this.model.handle, this.model.message);
+    this.socket.emit('chat:message', this.model.message);
     this.message = '';
   }
 }
