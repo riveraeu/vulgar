@@ -2,12 +2,12 @@
   <div [hidden]="submitted">
     <h1>User Registration</h1>
     <form *ngIf="active" (ngSubmit)="processUserData()"
-          [ngFormModel]='userForm' novalidate>
+          [formGroup]="userForm" novalidate>
       {{ diagnostic }}
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control"
-               [(ngModel)]="model.username" ngControl="username">
+               [(ngModel)]="model.username" formControlName="username">
        {{username.valid}}
        {{username.errors|json}}
        <div *ngIf='username.pending'>
@@ -15,6 +15,9 @@
            Validating username with server...
          </p>
        </div>
+       <!-- creates incorrect valid state for the control when you  input
+       text then hold backspace to delte, does not happen if you double click
+       input and delete it -->
        <div *ngIf='username.dirty && username.valid && !username.pending'>
          <p class="alert alert-success">
            The username {{ username.value }} is available
@@ -30,12 +33,15 @@
           <p *ngIf='username.errors.maxlength' class="alert alert-warning">
             Your username cannot exceed 16 characters
           </p>
+          <p *ngIf='username.errors.required' class="alert alert-warning">
+            A username is required
+          </p>
        </div>
       </div><!-- end form-group -->
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password" class="form-control"
-               [(ngModel)]="model.password" ngControl="password">
+               [(ngModel)]="model.password" formControlName="password">
         <div *ngIf='password.dirty && !password.valid'>
           <p *ngIf='password.errors.minlength' class="alert alert-warning">
             Your password must be at least 8 characters
@@ -43,12 +49,15 @@
           <p *ngIf='password.errors.maxlength' class="alert alert-warning">
             Your password cannot exceed 128 characters
           </p>
+          <p *ngIf='password.errors.required' class="alert alert-warning">
+            A password is required
+          </p>
         </div>
       </div><!-- end form-group -->
       <div class="form-group">
         <label for="confirm">Confirm</label>
         <input type="password" class="form-control"
-               [(ngModel)]="model.confirm" ngControl="confirm">
+               [(ngModel)]="model.confirm" formControlName="confirm">
         <div *ngIf='confirm.dirty && !confirm.valid'>
           <p *ngIf='confirm.errors.minlength' class="alert alert-warning">
             Your password must be at least 8 characters
@@ -56,17 +65,21 @@
           <p *ngIf='confirm.errors.maxlength' class="alert alert-warning">
             Your password cannot exceed 128 characters
           </p>
+          <p *ngIf='confirm.errors.required' class="alert alert-warning">
+            Confirm your password
+          </p>
         </div>
+        <!-- was causing the state of the control to be stuck invalid
         <div *ngIf='confirm.touched && password.touched'>
           <p *ngIf='confirm.errors.notEquivalent' class="alert alert-warning">
             Passwords do not match
           </p>
-        </div>
+        </div> -->
       </div><!-- end form-group -->
       <div class="form-group">
         <label for="email">Email</label>
         <input type="text" class="form-control"
-               [(ngModel)]="model.email" ngControl="email">
+               [(ngModel)]="model.email" formControlName="email">
         <div *ngIf='email.dirty && !email.valid'>
           <p *ngIf='email.errors.isValidFormat' class="alert alert-warning">
              Your email address must be in the format local@domain
@@ -87,7 +100,7 @@
       <button type="button" class="btn btn-default" (click)="newUser()">
         Clear
       </button>
-      <button type="submit" class="btn btn-default">
+      <button type="submit" class="btn btn-default" [disabled]="!userForm.valid">
         Submit
       </button>
     </form>
