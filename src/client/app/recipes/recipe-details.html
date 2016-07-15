@@ -4,11 +4,14 @@
     <h2 *ngIf="!selectedRecipe._id">Create New Recipe</h2>
   </div>
   <div>
-    <form novalidate>
+    <form #recipeForm="ngForm" novalidate>
         <div>
           <label>Recipe Title</label>
-          <input [(ngModel)]="selectedRecipe.title"
-            placeholder="Enter a title" type="text">
+          <input [(ngModel)]="selectedRecipe.title" required
+            placeholder="Enter a title" type="text" name="title" #title="ngModel">
+          <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+            Title is required
+          </div>
         </div>
         <div>
           <label>Tags</label>
@@ -17,7 +20,7 @@
           </button>
           <div *ngFor="let tag of selectedRecipe.tags">
             <input [(ngModel)]="tag.name" placeholder="Enter a tag"
-            type="text">
+            type="text" name"tag">
             <button (click)="deleteTag(tag)">
               X
             </button>
@@ -26,32 +29,33 @@
         <div>
           <label>Description</label>
           <input [(ngModel)]="selectedRecipe.description"
-            placeholder="Enter a description" type="text">
+            placeholder="Enter a description" type="text" name="description">
         </div>
         <div>
           <label>Rating</label>
           <rating [interactive]="true" [rate]="selectedRecipe.rating"
             (updateRate)="onUpdate($event)"></rating>
           <input [(ngModel)]="selectedRecipe.rating"
-            placeholder="Enter a rating" type="text">
+            placeholder="Enter a rating" type="text" name="rating">
         </div>
         <div>
           <label>Creator</label>
           <input [(ngModel)]="selectedRecipe.creator"
-            placeholder="Enter a username" type="text">
+            placeholder="Enter a username" type="text" name="creator">
         </div>
         <div>
           <label>Ingredients</label>
           <button (click)="newIngredient()">
               Add an Ingredient <i class="glyphicon glyphicon-plus"></i>
           </button>
+          <!-- duplicates previous ingredient -->
           <div *ngFor="let ingredient of selectedRecipe.ingredients">
             <input [(ngModel)]="ingredient.amount"
-              placeholder="Amount?" type="text">
+              placeholder="Amount?" type="text" name="amount">
             <input [(ngModel)]="ingredient.unit"
-              placeholder="Units?" type="text">
+              placeholder="Units?" type="text" name="unit">
             <input [(ngModel)]="ingredient.name"
-              placeholder="Name?" type="text">
+              placeholder="Name?" type="text" name="name">
             <i (click)="deleteIngredient(ingredient)"
               class="glyphicon glyphicon-remove">
             </i>
@@ -63,8 +67,9 @@
               Add a Step in the Process
           </button>
           <div *ngFor="let direction of selectedRecipe.directions">
+            <!-- duplicates previous direction -->
             <input [(ngModel)]="direction.step"
-              placeholder="Enter a step" type="text">
+              placeholder="Enter a step" type="text" name="step">
             <button (click)="deleteDirection(direction)">
               X
             </button>
@@ -76,7 +81,7 @@
       <button type="submit" (click)="cancelled.emit(selectedRecipe)">
         Cancel
       </button>
-      <button type="submit" (click)="saved.emit(selectedRecipe)">
+      <button type="submit" (click)="saved.emit(selectedRecipe)" [disabled]="!recipeForm.form.valid">
         Save
       </button>
   </div>
